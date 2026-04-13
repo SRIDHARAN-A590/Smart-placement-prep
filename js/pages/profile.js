@@ -80,6 +80,13 @@ Pages.profile = function() {
             <label>Target Companies (comma separated)</label>
             <input class="form-control" type="text" id="edit-targets" value="${user.targetCompanies.join(', ')}"/>
           </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label>App Theme</label>
+            <select class="form-control" id="edit-theme">
+              <option value="dark" ${user.theme!=='light'?'selected':''}>🌙 Dark Theme (Default)</option>
+              <option value="light" ${user.theme==='light'?'selected':''}>☀️ Light Theme</option>
+            </select>
+          </div>
         </div>
         <div style="display:flex;gap:12px;margin-top:20px;">
           <button type="submit" class="btn btn-primary">💾 Save Changes</button>
@@ -191,11 +198,12 @@ function saveProfile(e) {
   const college = document.getElementById('edit-college').value.trim();
   const branch = document.getElementById('edit-branch').value.trim();
   const year = document.getElementById('edit-year').value;
+  const theme = document.getElementById('edit-theme').value;
   const targets = document.getElementById('edit-targets').value
     .split(',').map(s => s.trim()).filter(s => s.length > 0);
   const avatar = name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
 
-  Auth.updateUser({ name, email, college, branch, year, avatar, targetCompanies: targets });
+  Auth.updateUser({ name, email, college, branch, year, avatar, theme, targetCompanies: targets });
   showToast('✅ Profile updated successfully!', 'success');
   Pages.profile(); // re-render
 }

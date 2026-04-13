@@ -12,29 +12,59 @@ const Auth = (() => {
     skills: ['Python', 'Java', 'React', 'SQL', 'DSA'],
     targetCompanies: ['Amazon', 'Microsoft', 'IBM'],
     progress: { aptitude: 72, coding: 58, technical: 64, overall: 65 },
-    streak: 14,
+    streak: 1,
     testsCompleted: 23,
-    questionsAttempted: 847
+    questionsAttempted: 847,
+    theme: 'dark',
+    lastLoginDate: new Date().toDateString()
   };
+
+  // Profile Daily Update & Streak Logic
+  function applyDailyUpdates(userObj) {
+    const today = new Date().toDateString();
+    if (userObj.lastLoginDate !== today) {
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      if (userObj.lastLoginDate === yesterday) {
+        userObj.streak = (userObj.streak || 0) + 1; // Increment streak if logged in yesterday
+      } else if (userObj.lastLoginDate) {
+        userObj.streak = 1; // Reset streak if missed a day
+      }
+      userObj.lastLoginDate = today;
+      localStorage.setItem('pp_user', JSON.stringify(userObj));
+    }
+  }
+
+  // Initial Boot Logic
+  if (user) {
+    applyDailyUpdates(user);
+    document.documentElement.setAttribute('data-theme', user.theme || 'dark');
+  }
 
   function login(email, pass) {
     user = { ...defaultUser, email };
+    applyDailyUpdates(user);
+    document.documentElement.setAttribute('data-theme', user.theme || 'dark');
     localStorage.setItem('pp_user', JSON.stringify(user));
     return user;
   }
 
   function signup(name, email, pass) {
     user = { ...defaultUser, name, email, avatar: name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() };
+    applyDailyUpdates(user);
+    document.documentElement.setAttribute('data-theme', user.theme || 'dark');
     localStorage.setItem('pp_user', JSON.stringify(user));
     return user;
   }
 
-  function logout() { user = null; localStorage.removeItem('pp_user'); }
+  function logout() { user = null; localStorage.removeItem('pp_user'); document.documentElement.setAttribute('data-theme', 'dark'); }
   function getUser() { return user; }
   function isLoggedIn() { return !!user; }
 
   function updateUser(updates) {
     user = { ...user, ...updates };
+    if (updates.theme) {
+      document.documentElement.setAttribute('data-theme', updates.theme);
+    }
     localStorage.setItem('pp_user', JSON.stringify(user));
     return user;
   }

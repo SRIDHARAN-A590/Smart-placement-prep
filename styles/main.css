@@ -27,6 +27,20 @@
   --sidebar-w: 240px;
 }
 
+[data-theme="light"] {
+  --bg: #F0F2F5;
+  --bg2: #FFFFFF;
+  --bg3: #F9FAFB;
+  --card: #FFFFFF;
+  --card2: #F3F4F6;
+  --text: #1F2937;
+  --text2: #4B5563;
+  --text3: #6B7280;
+  --border: rgba(108, 99, 255, 0.25);
+  --border2: rgba(0, 0, 0, 0.08);
+  --primary-light: #5A52E0;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
