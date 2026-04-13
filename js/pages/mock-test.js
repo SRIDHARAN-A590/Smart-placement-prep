@@ -2,6 +2,15 @@
 Pages.mockTest = function() {
   if (!Auth.isLoggedIn()) { showLoginModal(); return; }
 
+  const ddStyle = `appearance:none;-webkit-appearance:none;background:var(--card);color:var(--text);
+    border:1px solid var(--border2);border-radius:10px;padding:8px 36px 8px 14px;font-size:13px;
+    font-weight:600;cursor:pointer;outline:none;transition:var(--transition);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 12px center;`;
+
+  const companies = [...new Set(APP_DATA.mockTests.map(t=>t.company))];
+  const sourceColors = { 'PrepInsta':'#E65100', 'GeeksforGeeks':'#2E7D32', 'IndiaBix':'#D84315', 'LeetCode':'#FFA000' };
+
   renderDashboardLayout('mock-test', 'Mock Tests', `
     <div class="fade-up" style="margin-bottom:8px;">
       <div class="section-title">Mock Test Center</div>
@@ -42,19 +51,44 @@ Pages.mockTest = function() {
       </button>
     </div>
 
-    <!-- Filter & Mock List -->
-    <div style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;">
-      ${['All','Easy','Medium','Hard'].map((f,i)=>`
-        <button class="btn btn-${i===0?'primary':'secondary'} btn-sm"
-          onclick="filterMocks('${f}',this)">${f}</button>
-      `).join('')}
-      <button class="btn btn-secondary btn-sm" onclick="filterMockByCompany(this)">By Company</button>
+    <!-- Dropdown Filters -->
+    <div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;align-items:center;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <label style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Level</label>
+        <select id="mock-diff-filter" onchange="applyMockFilters()" style="${ddStyle}">
+          <option value="All">All Levels</option>
+          <option value="Easy">🟢 Easy</option>
+          <option value="Medium">🟡 Medium</option>
+          <option value="Hard">🔴 Hard</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <label style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Company</label>
+        <select id="mock-company-filter" onchange="applyMockFilters()" style="${ddStyle}">
+          <option value="All">All Companies</option>
+          ${companies.map(c=>`<option value="${c}">${c}</option>`).join('')}
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <label style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Category</label>
+        <select id="mock-cat-filter" onchange="applyMockFilters()" style="${ddStyle}">
+          <option value="All">All Categories</option>
+          <option value="Aptitude">📊 Aptitude</option>
+          <option value="Coding">💻 Coding</option>
+          <option value="Technical">⚙️ Technical</option>
+        </select>
+      </div>
+      <div style="margin-left:auto;font-size:13px;color:var(--text3);" id="mock-count">
+        ${APP_DATA.mockTests.length} tests available
+      </div>
     </div>
 
     <div class="grid-2" id="mock-grid">
-      ${APP_DATA.mockTests.map(t => `
-        <div class="card fade-up" data-difficulty="${t.difficulty}" data-company="${t.company}"
-          style="cursor:pointer;" onclick="startMockTest(${t.id})">
+      ${APP_DATA.mockTests.map(t => {
+        const srcColor = sourceColors[t.source] || 'var(--primary)';
+        return `
+        <div class="card fade-up" data-difficulty="${t.difficulty}" data-company="${t.company}" data-category="${t.category}"
+          style="cursor:pointer;">
           <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
             <div>
               <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">${t.company}</div>
@@ -62,10 +96,15 @@ Pages.mockTest = function() {
             </div>
             <span class="badge badge-${t.difficulty.toLowerCase()}">${t.difficulty}</span>
           </div>
-          <div style="display:flex;gap:20px;color:var(--text2);font-size:13px;margin-bottom:16px;flex-wrap:wrap;">
+          <div style="display:flex;gap:20px;color:var(--text2);font-size:13px;margin-bottom:12px;flex-wrap:wrap;">
             <span>⏱ ${t.duration} mins</span>
             <span>❓ ${t.questions} ${t.questions<10?'problems':'questions'}</span>
             <span>👥 ${(t.participants/1000).toFixed(1)}K attempted</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:14px;">
+            <span style="background:${srcColor}25;color:${srcColor};border:1px solid ${srcColor}40;
+              border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;">${t.source}</span>
+            <span style="font-size:11px;color:var(--text3);">↗ Opens in new tab</span>
           </div>
           <!-- Rating Bar -->
           <div style="margin-bottom:16px;">
@@ -83,7 +122,7 @@ Pages.mockTest = function() {
             🚀 Start Test
           </button>
         </div>
-      `).join('')}
+      `}).join('')}
     </div>
   `);
 
@@ -105,18 +144,26 @@ function startTimerAnimation() {
 
 function startMockTest(id) {
   const test = APP_DATA.mockTests.find(t=>t.id===id);
-  showToast(`🚀 Starting "${test.title}" — ${test.duration} minutes!`, 'success');
+  if (test && test.url) {
+    showToast(`🚀 Opening "${test.title}" on ${test.source}...`, 'success');
+    setTimeout(() => { window.open(test.url, '_blank'); }, 400);
+  }
 }
 
-function filterMocks(diff, btn) {
-  btn.parentElement.querySelectorAll('.btn').forEach(b=>b.className='btn btn-secondary btn-sm');
-  btn.className='btn btn-primary btn-sm';
-  document.querySelectorAll('#mock-grid .card').forEach(card=>{
-    card.style.display = diff==='All'||card.dataset.difficulty===diff? '':'none';
+function applyMockFilters() {
+  const diff = document.getElementById('mock-diff-filter').value;
+  const company = document.getElementById('mock-company-filter').value;
+  const cat = document.getElementById('mock-cat-filter').value;
+  const cards = document.querySelectorAll('#mock-grid > .card');
+  let visible = 0;
+  cards.forEach(card => {
+    const dMatch = diff === 'All' || card.dataset.difficulty === diff;
+    const cMatch = company === 'All' || card.dataset.company === company;
+    const catMatch = cat === 'All' || card.dataset.category === cat;
+    const show = dMatch && cMatch && catMatch;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
   });
-}
-
-function filterMockByCompany(btn) {
-  const companies = [...new Set(APP_DATA.mockTests.map(t=>t.company))];
-  showToast('Companies: '+companies.join(', '),'info');
+  const countEl = document.getElementById('mock-count');
+  if (countEl) countEl.textContent = `${visible} test${visible !== 1 ? 's' : ''} found`;
 }
