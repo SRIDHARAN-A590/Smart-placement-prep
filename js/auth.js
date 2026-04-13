@@ -33,7 +33,13 @@ const Auth = (() => {
   function getUser() { return user; }
   function isLoggedIn() { return !!user; }
 
-  return { login, signup, logout, getUser, isLoggedIn };
+  function updateUser(updates) {
+    user = { ...user, ...updates };
+    localStorage.setItem('pp_user', JSON.stringify(user));
+    return user;
+  }
+
+  return { login, signup, logout, getUser, isLoggedIn, updateUser };
 })();
 
 // ─── Auth Modal ──────────────────────────────────────────────────────────────

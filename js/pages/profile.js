@@ -12,7 +12,7 @@ Pages.profile = function() {
 
   const bodyHTML = `
     <!-- Profile Header -->
-    <div class="card fade-up" style="padding:36px;margin-bottom:28px;
+    <div class="card fade-up" id="profile-header" style="padding:36px;margin-bottom:28px;
       background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(0,212,255,0.05));
       border-color:var(--border);display:flex;align-items:center;gap:32px;flex-wrap:wrap;">
       <div style="position:relative;">
@@ -25,7 +25,7 @@ Pages.profile = function() {
         <div style="position:absolute;bottom:4px;right:4px;width:18px;height:18px;
           background:var(--success);border-radius:50%;border:2px solid var(--bg2);"></div>
       </div>
-      <div style="flex:1;">
+      <div style="flex:1;" id="profile-info-display">
         <h1 style="font-size:28px;font-weight:900;margin-bottom:4px;">${user.name}</h1>
         <div style="color:var(--text2);font-size:14px;margin-bottom:12px;">
           📧 ${user.email} &nbsp;·&nbsp; 🎓 ${user.college} &nbsp;·&nbsp; ${user.branch} &nbsp;·&nbsp; ${user.year}
@@ -38,9 +38,54 @@ Pages.profile = function() {
           `).join('')}
         </div>
       </div>
-      <button class="btn btn-secondary" onclick="showToast('✏️ Profile editing coming soon!','info')">
+      <button class="btn btn-secondary" id="edit-profile-btn" onclick="toggleEditProfile()">
         ✏️ Edit Profile
       </button>
+    </div>
+
+    <!-- Edit Profile Form (hidden by default) -->
+    <div class="card fade-up" id="edit-profile-form" style="display:none;padding:32px;margin-bottom:28px;
+      border-color:var(--primary);background:linear-gradient(135deg,rgba(108,99,255,0.08),var(--card));">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+        <h2 style="font-size:20px;font-weight:800;">✏️ Edit Profile</h2>
+        <button class="btn btn-secondary btn-sm" onclick="toggleEditProfile()">✕ Cancel</button>
+      </div>
+      <form onsubmit="saveProfile(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input class="form-control" type="text" id="edit-name" value="${user.name}" required/>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input class="form-control" type="email" id="edit-email" value="${user.email}" required/>
+          </div>
+          <div class="form-group">
+            <label>College</label>
+            <input class="form-control" type="text" id="edit-college" value="${user.college}" required/>
+          </div>
+          <div class="form-group">
+            <label>Branch</label>
+            <input class="form-control" type="text" id="edit-branch" value="${user.branch}" required/>
+          </div>
+          <div class="form-group">
+            <label>Year</label>
+            <select class="form-control" id="edit-year">
+              ${['1st Year','2nd Year','3rd Year','4th Year','Graduated'].map(y=>
+                `<option value="${y}" ${y===user.year?'selected':''}>${y}</option>`
+              ).join('')}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Target Companies (comma separated)</label>
+            <input class="form-control" type="text" id="edit-targets" value="${user.targetCompanies.join(', ')}"/>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:20px;">
+          <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+          <button type="button" class="btn btn-secondary" onclick="toggleEditProfile()">Cancel</button>
+        </div>
+      </form>
     </div>
 
     <!-- Stats Row -->
@@ -63,16 +108,27 @@ Pages.profile = function() {
       <!-- Skills -->
       <div class="card">
         <h2 style="font-size:18px;margin-bottom:20px;">🛠 Skills</h2>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;">
+        <div id="skills-container" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;">
           ${user.skills.map(s=>`
-            <span style="background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(0,212,255,0.1));
+            <span class="skill-tag" style="background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(0,212,255,0.1));
               border:1px solid var(--border);border-radius:10px;padding:8px 16px;
-              font-size:13px;font-weight:600;">${s}</span>
+              font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;">
+              ${s}
+              <span onclick="removeSkill('${s}')" style="cursor:pointer;color:var(--danger);font-size:16px;
+                font-weight:700;line-height:1;opacity:0.7;transition:var(--transition);"
+                onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7"
+                title="Remove ${s}">×</span>
+            </span>
           `).join('')}
         </div>
-        <button class="btn btn-secondary btn-sm" onclick="showToast('➕ Add skill feature coming soon!','info')">
-          + Add Skill
-        </button>
+        <div id="add-skill-area" style="display:flex;gap:8px;align-items:center;">
+          <input type="text" id="new-skill-input" class="form-control" placeholder="e.g. Node.js, C++, Docker..."
+            style="flex:1;margin:0;padding:8px 14px;font-size:13px;"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill();}"/>
+          <button class="btn btn-primary btn-sm" onclick="addSkill()" style="white-space:nowrap;">
+            + Add
+          </button>
+        </div>
       </div>
 
       <!-- Progress -->
@@ -116,3 +172,57 @@ Pages.profile = function() {
 
   renderDashboardLayout('profile', 'My Profile', bodyHTML);
 };
+
+// ─── Profile Edit Functions ──────────────────────────────────────────────────
+function toggleEditProfile() {
+  const form = document.getElementById('edit-profile-form');
+  const header = document.getElementById('profile-header');
+  const isHidden = form.style.display === 'none';
+  form.style.display = isHidden ? '' : 'none';
+  if (isHidden) {
+    form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+function saveProfile(e) {
+  e.preventDefault();
+  const name = document.getElementById('edit-name').value.trim();
+  const email = document.getElementById('edit-email').value.trim();
+  const college = document.getElementById('edit-college').value.trim();
+  const branch = document.getElementById('edit-branch').value.trim();
+  const year = document.getElementById('edit-year').value;
+  const targets = document.getElementById('edit-targets').value
+    .split(',').map(s => s.trim()).filter(s => s.length > 0);
+  const avatar = name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+
+  Auth.updateUser({ name, email, college, branch, year, avatar, targetCompanies: targets });
+  showToast('✅ Profile updated successfully!', 'success');
+  Pages.profile(); // re-render
+}
+
+// ─── Skill Management ────────────────────────────────────────────────────────
+function addSkill() {
+  const input = document.getElementById('new-skill-input');
+  const skill = input.value.trim();
+  if (!skill) { showToast('⚠️ Please enter a skill name', 'error'); return; }
+
+  const user = Auth.getUser();
+  if (user.skills.map(s => s.toLowerCase()).includes(skill.toLowerCase())) {
+    showToast('⚠️ Skill already exists!', 'error');
+    input.value = '';
+    return;
+  }
+
+  const updatedSkills = [...user.skills, skill];
+  Auth.updateUser({ skills: updatedSkills });
+  showToast(`✅ "${skill}" added to your skills!`, 'success');
+  Pages.profile(); // re-render
+}
+
+function removeSkill(skill) {
+  const user = Auth.getUser();
+  const updatedSkills = user.skills.filter(s => s !== skill);
+  Auth.updateUser({ skills: updatedSkills });
+  showToast(`🗑️ "${skill}" removed`, 'info');
+  Pages.profile(); // re-render
+}
