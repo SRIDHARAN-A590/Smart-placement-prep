@@ -2,6 +2,39 @@
 Pages.practice = function() {
   if (!Auth.isLoggedIn()) { showLoginModal(); return; }
 
+  // Dropdown style (shared)
+  const ddStyle = `appearance:none;-webkit-appearance:none;background:var(--card);color:var(--text);
+    border:1px solid var(--border2);border-radius:10px;padding:8px 36px 8px 14px;font-size:13px;
+    font-weight:600;cursor:pointer;outline:none;transition:var(--transition);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 12px center;`;
+
+  function makeFilterBar(category, topics) {
+    return `
+      <div style="display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap;align-items:center;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <label style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Topic</label>
+          <select id="${category}-topic-filter" onchange="applyPracticeFilter('${category}')" style="${ddStyle}">
+            <option value="All">All Topics</option>
+            ${topics.map(t => `<option value="${t}">${t}</option>`).join('')}
+          </select>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <label style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Level</label>
+          <select id="${category}-diff-filter" onchange="applyPracticeFilter('${category}')" style="${ddStyle}">
+            <option value="All">All Levels</option>
+            <option value="Easy">🟢 Easy</option>
+            <option value="Medium">🟡 Medium</option>
+            <option value="Hard">🔴 Hard</option>
+          </select>
+        </div>
+        <div style="margin-left:auto;font-size:13px;color:var(--text3);" id="${category}-count">
+          ${APP_DATA.practice[category].length} topics
+        </div>
+      </div>
+    `;
+  }
+
   renderDashboardLayout('practice', 'Practice', `
     <div class="fade-up" style="margin-bottom:8px;">
       <div class="section-title">Practice Arena</div>
@@ -21,12 +54,7 @@ Pages.practice = function() {
 
     <!-- Aptitude Section -->
     <div id="section-aptitude" class="practice-section">
-      <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;">
-        ${['All','Quantitative','Logical','Verbal'].map((f,i)=>`
-          <button class="btn btn-${i===0?'primary':'secondary'} btn-sm"
-            onclick="filterPractice('aptitude','${f}',this)">${f}</button>
-        `).join('')}
-      </div>
+      ${makeFilterBar('aptitude', ['Quantitative','Logical','Verbal'])}
       <div class="grid-3" id="aptitude-cards">
         ${APP_DATA.practice.aptitude.map(q=>practiceCard(q,'aptitude')).join('')}
       </div>
@@ -34,12 +62,7 @@ Pages.practice = function() {
 
     <!-- Coding Section -->
     <div id="section-coding" class="practice-section" style="display:none;">
-      <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;">
-        ${['All','Arrays','Strings','Stacks','Trees','Graphs','DP','Algorithms','Recursion'].map((f,i)=>`
-          <button class="btn btn-${i===0?'primary':'secondary'} btn-sm"
-            onclick="filterPractice('coding','${f}',this)">${f}</button>
-        `).join('')}
-      </div>
+      ${makeFilterBar('coding', ['Arrays','Strings','Stacks','Linked Lists','Trees','Graphs','DP','Algorithms','Recursion'])}
       <div class="grid-3" id="coding-cards">
         ${APP_DATA.practice.coding.map(q=>practiceCard(q,'coding')).join('')}
       </div>
@@ -47,12 +70,7 @@ Pages.practice = function() {
 
     <!-- Technical Section -->
     <div id="section-technical" class="practice-section" style="display:none;">
-      <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;">
-        ${['All','OS','DBMS','Networking','OOP','Design','DSA','Embedded'].map((f,i)=>`
-          <button class="btn btn-${i===0?'primary':'secondary'} btn-sm"
-            onclick="filterPractice('technical','${f}',this)">${f}</button>
-        `).join('')}
-      </div>
+      ${makeFilterBar('technical', ['OS','DBMS','Networking','OOP','Design','DSA','Embedded'])}
       <div class="grid-3" id="technical-cards">
         ${APP_DATA.practice.technical.map(q=>practiceCard(q,'technical')).join('')}
       </div>
@@ -61,7 +79,8 @@ Pages.practice = function() {
 };
 
 function practiceCard(q, category) {
-  const diffColor = { Easy:'var(--success)', Medium:'var(--warning)', Hard:'var(--danger)' };
+  const sourceColors = { 'IndiaBix':'#E65100', 'GeeksforGeeks':'#2E7D32', 'FacePrep':'#1565C0' };
+  const srcColor = sourceColors[q.source] || 'var(--primary)';
   return `
     <div class="card fade-up" data-topic="${q.topic}" data-difficulty="${q.difficulty}" style="cursor:pointer;">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
@@ -70,13 +89,18 @@ function practiceCard(q, category) {
         <span class="badge badge-${q.difficulty.toLowerCase()}">${q.difficulty}</span>
       </div>
       <h3 style="font-size:15px;font-weight:700;margin-bottom:10px;line-height:1.4;">${q.title}</h3>
-      <div style="display:flex;gap:16px;color:var(--text3);font-size:12px;margin-bottom:16px;">
+      <div style="display:flex;gap:16px;color:var(--text3);font-size:12px;margin-bottom:10px;">
         <span>📝 ${q.questions} questions</span>
         <span>⏱ ${q.duration}</span>
       </div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:16px;">
+        <span style="background:${srcColor}25;color:${srcColor};border:1px solid ${srcColor}40;
+          border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;">${q.source}</span>
+        <span style="font-size:11px;color:var(--text3);">↗ Opens in new tab</span>
+      </div>
       <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;"
-        onclick="showToast('⚡ Starting ${q.title.replace(/'/g,'')}...','info')">
-        Start Practice
+        onclick="event.stopPropagation();startPractice('${q.url}','${q.title.replace(/'/g,'')}','${q.source}')">
+        🚀 Start Practice
       </button>
     </div>
   `;
@@ -91,12 +115,25 @@ function switchPracticeTab(tab) {
   });
 }
 
-function filterPractice(category, filter, btn) {
-  btn.closest('div').querySelectorAll('.btn').forEach(b => b.className='btn btn-secondary btn-sm');
-  btn.className='btn btn-primary btn-sm';
+function applyPracticeFilter(category) {
+  const topicVal = document.getElementById(`${category}-topic-filter`).value;
+  const diffVal = document.getElementById(`${category}-diff-filter`).value;
   const cards = document.querySelectorAll(`#${category}-cards > .card`);
+  let visible = 0;
   cards.forEach(card => {
-    const show = filter==='All' || card.dataset.topic===filter || card.dataset.difficulty===filter;
+    const topicMatch = topicVal === 'All' || card.dataset.topic === topicVal;
+    const diffMatch = diffVal === 'All' || card.dataset.difficulty === diffVal;
+    const show = topicMatch && diffMatch;
     card.style.display = show ? '' : 'none';
+    if (show) visible++;
   });
+  const countEl = document.getElementById(`${category}-count`);
+  if (countEl) countEl.textContent = `${visible} topic${visible !== 1 ? 's' : ''} found`;
+}
+
+function startPractice(url, title, source) {
+  showToast(`🚀 Opening "${title}" on ${source}...`, 'success');
+  setTimeout(() => {
+    window.open(url, '_blank');
+  }, 400);
 }
