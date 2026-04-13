@@ -103,7 +103,7 @@ Pages.dashboard = function() {
           <div onclick="Router.navigate('company','${c.id}')" style="display:flex;align-items:center;gap:12px;padding:12px;
             border-radius:12px;background:var(--bg2);margin-bottom:8px;cursor:pointer;transition:var(--transition);"
             onmouseover="this.style.background='var(--card2)'" onmouseout="this.style.background='var(--bg2)'">
-            <span style="font-size:22px;">${c.logo}</span>
+            ${companyLogo(c.logo, c.name, 28)}
             <div style="flex:1;">
               <div style="font-size:13px;font-weight:600;">${c.name}</div>
               <div style="font-size:11px;color:var(--text3);">${c.focus.join(' · ')}</div>

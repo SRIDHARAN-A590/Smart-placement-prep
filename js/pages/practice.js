@@ -35,7 +35,7 @@ Pages.practice = function() {
     <!-- Coding Section -->
     <div id="section-coding" class="practice-section" style="display:none;">
       <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;">
-        ${['All','Arrays','Strings','Trees','Graphs','DP','Algorithms','Recursion'].map((f,i)=>`
+        ${['All','Arrays','Strings','Stacks','Trees','Graphs','DP','Algorithms','Recursion'].map((f,i)=>`
           <button class="btn btn-${i===0?'primary':'secondary'} btn-sm"
             onclick="filterPractice('coding','${f}',this)">${f}</button>
         `).join('')}

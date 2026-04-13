@@ -12,7 +12,7 @@ Pages.companyDetail = function(id) {
     <div class="card fade-up" style="padding:32px;margin-bottom:28px;
       background:linear-gradient(135deg,${c.color}15,var(--card));border-color:${c.color}40;">
       <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
-        <div style="font-size:64px;filter:drop-shadow(0 8px 24px ${c.color}60);">${c.logo}</div>
+        <div style="filter:drop-shadow(0 8px 24px ${c.color}60);">${companyLogo(c.logo, c.name, 72)}</div>
         <div style="flex:1;">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap;">
             <h1 style="font-size:32px;font-weight:900;">${c.name}</h1>
@@ -97,7 +97,7 @@ Pages.companyDetail = function(id) {
     </div>
   `;
 
-  renderDashboardLayout('companies', `${c.logo} ${c.name}`, bodyHTML);
+  renderDashboardLayout('companies', c.name, bodyHTML);
 };
 
 function toggleFAQ(i) {

@@ -1,4 +1,9 @@
 // ─── Shared Layout Helpers ────────────────────────────────────────────────────
+
+// Renders company logo as <img> with fallback
+function companyLogo(src, name, size = 42) {
+  return `<img src="${src}" alt="${name}" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:8px;background:#fff;padding:4px;" onerror="this.style.fontSize='${Math.floor(size*0.5)}px';this.style.display='flex';this.style.alignItems='center';this.style.justifyContent='center';this.outerHTML='<div style=\\'width:${size}px;height:${size}px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:${Math.floor(size*0.4)}px;color:#fff;\\'>${name.charAt(0)}</div>'"/>`;
+}
 function renderSidebar(activePage) {
   const user = Auth.getUser();
   const navItems = [

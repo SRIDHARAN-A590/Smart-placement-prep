@@ -24,7 +24,7 @@ Pages.companies = function() {
       <div style="padding:24px 24px 16px;background:linear-gradient(135deg,${c.color}18,${c.color}05);
         border-bottom:1px solid var(--border2);position:relative;">
         <div style="position:absolute;top:16px;right:16px;">${diffBadge(c.difficulty)}</div>
-        <div style="font-size:42px;margin-bottom:10px;">${c.logo}</div>
+        <div style="font-size:42px;margin-bottom:10px;">${companyLogo(c.logo, c.name, 48)}</div>
         <h3 style="font-size:18px;font-weight:700;">${c.name}</h3>
         <div style="font-size:12px;color:var(--text3);margin-top:2px;">📦 ${c.package}</div>
       </div>

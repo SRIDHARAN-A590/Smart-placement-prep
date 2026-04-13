@@ -106,7 +106,7 @@ Pages.landing = function() {
               transition:var(--transition);"
               onmouseover="this.style.borderColor='${c.color}';this.style.transform='translateY(-3px)'"
               onmouseout="this.style.borderColor='var(--border2)';this.style.transform='translateY(0)'">
-              <span style="font-size:24px;">${c.logo}</span>
+              ${companyLogo(c.logo, c.name, 28)}
               <div>
                 <div style="font-weight:600;font-size:14px;">${c.name}</div>
                 <div style="font-size:11px;color:var(--text3);">${c.package}</div>
