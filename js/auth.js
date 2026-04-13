@@ -24,7 +24,7 @@ const Auth = (() => {
   }
 
   function signup(name, email, pass) {
-    user = { ...defaultUser, name, email, avatar: name.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase() };
+    user = { ...defaultUser, name, email, avatar: name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() };
     localStorage.setItem('pp_user', JSON.stringify(user));
     return user;
   }

@@ -73,7 +73,7 @@ const APP_DATA = {
       {id:2,title:"Percentage & Profit/Loss",difficulty:"Easy",questions:15,duration:"25 mins",topic:"Quantitative",source:"IndiaBix",url:"https://www.indiabix.com/aptitude/profit-and-loss/"},
       {id:3,title:"Logical Reasoning Basics",difficulty:"Easy",questions:25,duration:"35 mins",topic:"Logical",source:"IndiaBix",url:"https://www.indiabix.com/logical-reasoning/questions-and-answers/"},
       {id:4,title:"Number Series",difficulty:"Medium",questions:20,duration:"30 mins",topic:"Logical",source:"IndiaBix",url:"https://www.indiabix.com/aptitude/problems-on-numbers/"},
-      {id:5,title:"Seating Arrangements",difficulty:"Medium",questions:10,duration:"40 mins",topic:"Logical",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/puzzles/#702702702702702702702702"},
+      {id:5,title:"Seating Arrangements",difficulty:"Medium",questions:10,duration:"40 mins",topic:"Logical",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/puzzles/"},
       {id:6,title:"Data Interpretation",difficulty:"Hard",questions:15,duration:"45 mins",topic:"Quantitative",source:"FacePrep",url:"https://www.faceprep.in/data-interpretation/"},
       {id:7,title:"Syllogisms & Verbal Logic",difficulty:"Medium",questions:20,duration:"30 mins",topic:"Verbal",source:"IndiaBix",url:"https://www.indiabix.com/logical-reasoning/syllogism/"},
       {id:8,title:"Permutation & Combination",difficulty:"Hard",questions:10,duration:"35 mins",topic:"Quantitative",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/permutation-and-combination/"},
@@ -86,7 +86,19 @@ const APP_DATA = {
       {id:15,title:"Para Jumbles & Sentence Correction",difficulty:"Hard",questions:20,duration:"35 mins",topic:"Verbal",source:"IndiaBix",url:"https://www.indiabix.com/verbal-ability/sentence-correction/"},
       {id:16,title:"Clocks & Calendars",difficulty:"Medium",questions:12,duration:"25 mins",topic:"Logical",source:"IndiaBix",url:"https://www.indiabix.com/aptitude/calendar/"},
       {id:17,title:"Pipes & Cisterns",difficulty:"Easy",questions:10,duration:"20 mins",topic:"Quantitative",source:"IndiaBix",url:"https://www.indiabix.com/aptitude/pipes-and-cistern/"},
-      {id:18,title:"Direction Sense & Puzzles",difficulty:"Hard",questions:15,duration:"40 mins",topic:"Logical",source:"IndiaBix",url:"https://www.indiabix.com/logical-reasoning/direction-sense-test/"}
+      {id:18,title:"Direction Sense & Puzzles",difficulty:"Hard",questions:15,duration:"40 mins",topic:"Logical",source:"IndiaBix",url:"https://www.indiabix.com/logical-reasoning/direction-sense-test/"},
+      {id:19,title:"Simple & Compound Interest",difficulty:"Easy",questions:20,duration:"25 mins",topic:"Quantitative",source:"IndiaBix",url:"https://www.indiabix.com/aptitude/simple-interest/"},
+      {id:20,title:"Averages & Mixtures",difficulty:"Easy",questions:15,duration:"20 mins",topic:"Quantitative",source:"IndiaBix",url:"https://www.indiabix.com/aptitude/average/"},
+      {id:21,title:"Area & Volume Problems",difficulty:"Medium",questions:18,duration:"30 mins",topic:"Quantitative",source:"IndiaBix",url:"https://www.indiabix.com/aptitude/area/"},
+      {id:22,title:"Analogies & Classification",difficulty:"Easy",questions:25,duration:"25 mins",topic:"Logical",source:"IndiaBix",url:"https://www.indiabix.com/logical-reasoning/analogies/"},
+      {id:23,title:"Cause & Effect Reasoning",difficulty:"Medium",questions:15,duration:"25 mins",topic:"Logical",source:"IndiaBix",url:"https://www.indiabix.com/logical-reasoning/cause-and-effect/"},
+      {id:24,title:"Statement & Assumptions",difficulty:"Hard",questions:20,duration:"35 mins",topic:"Logical",source:"IndiaBix",url:"https://www.indiabix.com/logical-reasoning/statement-and-assumption/"},
+      {id:25,title:"Spotting Errors in English",difficulty:"Easy",questions:25,duration:"25 mins",topic:"Verbal",source:"IndiaBix",url:"https://www.indiabix.com/verbal-ability/spotting-errors/"},
+      {id:26,title:"Synonyms & Antonyms",difficulty:"Easy",questions:30,duration:"20 mins",topic:"Verbal",source:"IndiaBix",url:"https://www.indiabix.com/verbal-ability/synonyms/"},
+      {id:27,title:"Idioms & Phrases",difficulty:"Medium",questions:20,duration:"25 mins",topic:"Verbal",source:"IndiaBix",url:"https://www.indiabix.com/verbal-ability/idioms-and-phrases/"},
+      {id:28,title:"Boats & Streams",difficulty:"Medium",questions:12,duration:"25 mins",topic:"Quantitative",source:"IndiaBix",url:"https://www.indiabix.com/aptitude/boats-and-streams/"},
+      {id:29,title:"Problems on Ages",difficulty:"Easy",questions:15,duration:"20 mins",topic:"Quantitative",source:"IndiaBix",url:"https://www.indiabix.com/aptitude/problems-on-ages/"},
+      {id:30,title:"Data Sufficiency",difficulty:"Hard",questions:15,duration:"40 mins",topic:"Logical",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/data-sufficiency/"}
     ],
     coding:[
       {id:1,title:"Array Manipulation Challenges",difficulty:"Easy",questions:10,duration:"60 mins",topic:"Arrays",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/top-50-array-coding-problems-for-interviews/"},
@@ -106,7 +118,19 @@ const APP_DATA = {
       {id:15,title:"Greedy Algorithms",difficulty:"Medium",questions:8,duration:"60 mins",topic:"Algorithms",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/greedy-algorithms/"},
       {id:16,title:"DP on Strings (LCS, Edit Distance)",difficulty:"Hard",questions:6,duration:"90 mins",topic:"DP",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/longest-common-subsequence-dp-4/"},
       {id:17,title:"Trie Data Structure",difficulty:"Hard",questions:5,duration:"70 mins",topic:"Trees",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/introduction-to-trie-data-structure-and-algorithm-tutorials/"},
-      {id:18,title:"Segment Trees & BIT",difficulty:"Hard",questions:5,duration:"90 mins",topic:"Trees",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/segment-tree-data-structure/"}
+      {id:18,title:"Segment Trees & BIT",difficulty:"Hard",questions:5,duration:"90 mins",topic:"Trees",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/segment-tree-data-structure/"},
+      {id:19,title:"Bit Manipulation Tricks",difficulty:"Medium",questions:10,duration:"50 mins",topic:"Arrays",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/bits-manipulation-important-tactics/"},
+      {id:20,title:"Matrix Problems",difficulty:"Medium",questions:12,duration:"65 mins",topic:"Arrays",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/top-50-matrix-coding-problems-for-interviews/"},
+      {id:21,title:"Doubly & Circular Linked Lists",difficulty:"Medium",questions:8,duration:"55 mins",topic:"Linked Lists",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/doubly-linked-list/"},
+      {id:22,title:"BST Operations & Validation",difficulty:"Medium",questions:10,duration:"70 mins",topic:"Trees",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/binary-search-tree-data-structure/"},
+      {id:23,title:"Shortest Path Algorithms",difficulty:"Hard",questions:6,duration:"80 mins",topic:"Graphs",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/"},
+      {id:24,title:"Union-Find & Disjoint Sets",difficulty:"Hard",questions:5,duration:"60 mins",topic:"Graphs",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/introduction-to-disjoint-set-data-structure-or-union-find-algorithm/"},
+      {id:25,title:"Queue Variations (Deque, Circular)",difficulty:"Easy",questions:10,duration:"45 mins",topic:"Stacks",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/queue-data-structure/"},
+      {id:26,title:"Pattern Printing Problems",difficulty:"Easy",questions:15,duration:"40 mins",topic:"Recursion",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/programs-printing-pyramid-patterns-java/"},
+      {id:27,title:"Kadane's & Subarray Problems",difficulty:"Medium",questions:8,duration:"50 mins",topic:"Arrays",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/"},
+      {id:28,title:"Topological Sort & DAG",difficulty:"Hard",questions:6,duration:"70 mins",topic:"Graphs",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/topological-sorting/"},
+      {id:29,title:"KMP & String Matching",difficulty:"Hard",questions:5,duration:"75 mins",topic:"Strings",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/"},
+      {id:30,title:"DP on Trees",difficulty:"Hard",questions:5,duration:"90 mins",topic:"DP",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/dynamic-programming-trees-set-1/"}
     ],
     technical:[
       {id:1,title:"OS Concepts MCQs",difficulty:"Medium",questions:30,duration:"40 mins",topic:"OS",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/operating-systems-gq/"},
@@ -126,7 +150,19 @@ const APP_DATA = {
       {id:15,title:"Cloud Computing Fundamentals",difficulty:"Medium",questions:20,duration:"30 mins",topic:"Networking",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/cloud-computing/"},
       {id:16,title:"Microcontroller Architecture",difficulty:"Hard",questions:20,duration:"40 mins",topic:"Embedded",source:"IndiaBix",url:"https://www.indiabix.com/engineering/microprocessors/"},
       {id:17,title:"REST API & Web Services",difficulty:"Medium",questions:20,duration:"30 mins",topic:"Design",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/rest-api-introduction/"},
-      {id:18,title:"Linux & Shell Scripting",difficulty:"Medium",questions:25,duration:"35 mins",topic:"OS",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/introduction-linux-shell-shell-scripting/"}
+      {id:18,title:"Linux & Shell Scripting",difficulty:"Medium",questions:25,duration:"35 mins",topic:"OS",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/introduction-linux-shell-shell-scripting/"},
+      {id:19,title:"Memory Management & Paging",difficulty:"Hard",questions:20,duration:"35 mins",topic:"OS",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/memory-management-in-operating-system/"},
+      {id:20,title:"Deadlocks & Synchronization",difficulty:"Hard",questions:15,duration:"30 mins",topic:"OS",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/introduction-of-deadlock-in-operating-system/"},
+      {id:21,title:"Transactions & ACID Properties",difficulty:"Medium",questions:20,duration:"30 mins",topic:"DBMS",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/acid-properties-in-dbms/"},
+      {id:22,title:"Indexing & B-Trees in DBMS",difficulty:"Hard",questions:15,duration:"35 mins",topic:"DBMS",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/indexing-in-databases-set-1/"},
+      {id:23,title:"Subnetting & IP Addressing",difficulty:"Medium",questions:20,duration:"35 mins",topic:"Networking",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/introduction-of-subnetting/"},
+      {id:24,title:"HTTP, DNS & Application Layer",difficulty:"Easy",questions:25,duration:"30 mins",topic:"Networking",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/http-full-form/"},
+      {id:25,title:"Inheritance & Polymorphism Deep Dive",difficulty:"Medium",questions:20,duration:"30 mins",topic:"OOP",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/inheritance-in-java/"},
+      {id:26,title:"Abstract Classes & Interfaces",difficulty:"Medium",questions:15,duration:"25 mins",topic:"OOP",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/difference-between-abstract-class-and-interface-in-java/"},
+      {id:27,title:"Microservices Architecture",difficulty:"Hard",questions:15,duration:"40 mins",topic:"Design",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/microservices/"},
+      {id:28,title:"Algorithm Complexity Analysis",difficulty:"Medium",questions:25,duration:"35 mins",topic:"DSA",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/analysis-of-algorithms-set-1-asymptotic-analysis/"},
+      {id:29,title:"RTOS & Scheduling Algorithms",difficulty:"Hard",questions:15,duration:"35 mins",topic:"Embedded",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/real-time-operating-system-rtos/"},
+      {id:30,title:"CPU Scheduling Algorithms",difficulty:"Medium",questions:20,duration:"30 mins",topic:"OS",source:"GeeksforGeeks",url:"https://www.geeksforgeeks.org/cpu-scheduling-in-operating-systems/"}
     ]
   },
   mockTests:[
