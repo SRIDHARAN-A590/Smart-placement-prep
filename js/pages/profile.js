@@ -38,9 +38,18 @@ Pages.profile = function() {
           `).join('')}
         </div>
       </div>
-      <button class="btn btn-secondary" id="edit-profile-btn" onclick="toggleEditProfile()">
-        ✏️ Edit Profile
-      </button>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <select class="btn btn-secondary" style="appearance:none;padding-right:32px;background-image:url(&quot;data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23A8AECE%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E&quot;);background-repeat:no-repeat;background-position:right 12px top 50%;background-size:10px auto;outline:none;" onchange="changeTheme(this.value)">
+          <option value="dark" ${user.theme==='dark'||!user.theme?'selected':''}>🌙 Dark Theme</option>
+          <option value="light" ${user.theme==='light'?'selected':''}>☀️ Light Theme</option>
+          <option value="cyberpunk" ${user.theme==='cyberpunk'?'selected':''}>🚀 Cyberpunk</option>
+          <option value="ocean" ${user.theme==='ocean'?'selected':''}>🌊 Ocean</option>
+          <option value="sunset" ${user.theme==='sunset'?'selected':''}>🌇 Sunset</option>
+        </select>
+        <button class="btn btn-secondary" id="edit-profile-btn" onclick="toggleEditProfile()">
+          ✏️ Edit Profile
+        </button>
+      </div>
     </div>
 
     <!-- Edit Profile Form (hidden by default) -->
@@ -79,13 +88,6 @@ Pages.profile = function() {
           <div class="form-group">
             <label>Target Companies (comma separated)</label>
             <input class="form-control" type="text" id="edit-targets" value="${user.targetCompanies.join(', ')}"/>
-          </div>
-          <div class="form-group" style="grid-column: 1 / -1;">
-            <label>App Theme</label>
-            <select class="form-control" id="edit-theme">
-              <option value="dark" ${user.theme!=='light'?'selected':''}>🌙 Dark Theme (Default)</option>
-              <option value="light" ${user.theme==='light'?'selected':''}>☀️ Light Theme</option>
-            </select>
           </div>
         </div>
         <div style="display:flex;gap:12px;margin-top:20px;">
@@ -198,14 +200,18 @@ function saveProfile(e) {
   const college = document.getElementById('edit-college').value.trim();
   const branch = document.getElementById('edit-branch').value.trim();
   const year = document.getElementById('edit-year').value;
-  const theme = document.getElementById('edit-theme').value;
   const targets = document.getElementById('edit-targets').value
     .split(',').map(s => s.trim()).filter(s => s.length > 0);
   const avatar = name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
 
-  Auth.updateUser({ name, email, college, branch, year, avatar, theme, targetCompanies: targets });
+  Auth.updateUser({ name, email, college, branch, year, avatar, targetCompanies: targets });
   showToast('✅ Profile updated successfully!', 'success');
   Pages.profile(); // re-render
+}
+
+function changeTheme(themeVal) {
+  Auth.updateUser({ theme: themeVal });
+  showToast('🎨 Theme updated!', 'info');
 }
 
 // ─── Skill Management ────────────────────────────────────────────────────────
