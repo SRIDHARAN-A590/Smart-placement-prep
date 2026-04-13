@@ -44,6 +44,8 @@ function renderSidebar(activePage) {
 
 function renderTopbar(title) {
   const user = Auth.getUser();
+  const drives = window.APP_DATA ? APP_DATA.hiringDrives : [];
+  
   return `
     <div class="topbar">
       <div style="display:flex;align-items:center;gap:16px;">
@@ -56,14 +58,51 @@ function renderTopbar(title) {
           <span>🔍</span>
           <input type="text" placeholder="Search companies, topics..."/>
         </div>
-        <div style="position:relative;cursor:pointer;">
+        
+        <!-- Notifications Dropdown -->
+        <div style="position:relative;cursor:pointer;" id="notif-bell" onclick="document.getElementById('notif-dropdown').classList.toggle('show')">
           <span style="font-size:20px;">🔔</span>
-          <span style="position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700;">3</span>
+          <span style="position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700;">${drives.length}</span>
+          
+          <div id="notif-dropdown" class="card" style="display:none;position:absolute;top:100%;right:0;width:320px;margin-top:16px;padding:16px;box-shadow:0 10px 40px rgba(0,0,0,0.3);z-index:100;border:1px solid var(--border);border-top:3px solid var(--primary);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid var(--border2);padding-bottom:8px;">
+              <h3 style="font-size:14px;font-weight:800;margin:0;">Upcoming Hiring Drives</h3>
+              <span style="font-size:11px;color:var(--brand);font-weight:600;cursor:pointer;">Update Daily</span>
+            </div>
+            <div style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;">
+              ${drives.map(d => `
+                <div style="display:flex;flex-direction:column;gap:4px;padding:8px;border-radius:8px;background:var(--bg2);transition:var(--transition);" onmouseover="this.style.background='var(--card2)'" onmouseout="this.style.background='var(--bg2)'">
+                  <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <span style="font-size:13px;font-weight:700;color:var(--primary-light);">${d.company}</span>
+                    <span style="font-size:10px;background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;">${d.date}</span>
+                  </div>
+                  <div style="font-size:12px;color:var(--text);">${d.title}</div>
+                  <a href="${d.url}" target="_blank" style="font-size:11px;color:var(--brand);text-decoration:none;font-weight:600;margin-top:4px;">Apply on Official Site ↗</a>
+                </div>
+              `).join('')}
+            </div>
+          </div>
         </div>
+
         <div class="avatar" onclick="Router.navigate('profile')">${user?.avatar||'U'}</div>
       </div>
     </div>
-    <style>@media(max-width:768px){#mobile-menu-btn{display:block!important;}}</style>
+    
+    <style>
+      @media(max-width:768px){#mobile-menu-btn{display:block!important;}}
+      #notif-dropdown.show { display:block !important; animation: fadeUp 0.2s ease forwards; }
+    </style>
+    
+    <script>
+      // Close dropdown if clicked outside
+      document.addEventListener('click', function(e) {
+        const bell = document.getElementById('notif-bell');
+        const dp = document.getElementById('notif-dropdown');
+        if (bell && dp && !bell.contains(e.target)) {
+          dp.classList.remove('show');
+        }
+      });
+    </script>
   `;
 }
 

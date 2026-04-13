@@ -197,5 +197,12 @@ const APP_DATA = {
     {name:"Meera Suresh",company:"Caterpillar",role:"Software Developer",year:"2024",avatar:"MS",rating:5,summary:"Cat's campus hiring was structured and fair. Java, SQL, and aptitude are enough. Interviewers asked about scalability and system thinking. Work-life balance is AMAZING!",tags:["Java","SQL","Work-Life Balance"]},
     {name:"Dev Krishnan",company:"Motorola",role:"Embedded Engineer",year:"2024",avatar:"DK",rating:4,summary:"Motorola focuses heavily on networking and embedded systems. OSI model, TCP/IP and protocol stack questions were common. Had to write code for packet parsing in C.",tags:["Networking","Embedded C","Protocols"]},
     {name:"Lakshmi Nair",company:"Mr. Cooper",role:"Full Stack Developer",year:"2025",avatar:"LN",rating:4,summary:"Mr. Cooper surprised me with their tech stack (React + .NET). Interview was practical — built a small component on the spot. SQL queries came up heavily. Fintech is a great domain!",tags:["React","SQL","Fintech"]}
+  ],
+  hiringDrives:[
+    {id:1,company:"Amazon",title:"SDE-1 Campus Hiring",date:"Apr 20, 2026",type:"Full Time",url:"https://amazon.jobs/en/categories/software-development"},
+    {id:2,company:"TCS",title:"Off-Campus NQT Phase 1",date:"Apr 25, 2026",type:"Full Time",url:"https://www.tcs.com/careers"},
+    {id:3,company:"Infosys",title:"System Engineer Recruitment",date:"May 02, 2026",type:"Full Time",url:"https://www.infosys.com/careers.html"},
+    {id:4,company:"Microsoft",title:"Summer Internship 2026",date:"May 10, 2026",type:"Internship",url:"https://careers.microsoft.com/v2/global/en/students-and-graduates"},
+    {id:5,company:"Honeywell",title:"Embedded Software Engineer",date:"May 15, 2026",type:"Full Time",url:"https://careers.honeywell.com/us/en"}
   ]
 };
